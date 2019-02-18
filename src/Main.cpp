@@ -4,17 +4,10 @@
 #include <scriptstdstring/scriptstdstring.h>
 #include <scriptbuilder/scriptbuilder.h>
 
-#ifdef _WIN32
-#include <windows.h>
-WORD saved_attributes;
-#endif
-
 void print(const std::string &s) {
   std::cout << s << std::endl;
 }
 
-void SetColorAndBackground(WORD wColor);
-void SaveAttributes();
 void MessageCallback(const asSMessageInfo *msg, void *param)
 {
   const char *type = "ERR ";
@@ -26,16 +19,8 @@ void MessageCallback(const asSMessageInfo *msg, void *param)
     type = "INFO";
     return;
   }
-  #ifdef _WIN32
-  SaveAttributes();
-  SetColorAndBackground(FOREGROUND_BLUE);
-  SetColorAndBackground(BACKGROUND_BLUE);
-  printf("Exeption");
-  SetColorAndBackground(saved_attributes);
-  #else
-  std::cout << "Exeption " << msg->message << std::endl;
+  std::cout << "Exeption - " << msg->message << std::endl;
   printf("    at %s:%d\n", msg->section, msg->row);
-  #endif
 }
 
 int main() {
@@ -51,7 +36,7 @@ int main() {
   //assert(r >= 0);
 
   CScriptBuilder builder;
-  r = builder.StartNewModule(angelEngine, "MyModule");
+  r = builder.StartNewModule(angelEngine, "MainModule");
   if( r < 0 )
   {
     // If the code fails here it is usually because there
@@ -78,7 +63,7 @@ int main() {
   }
 
   // Find the function that is to be called.
-  asIScriptModule *mod = angelEngine->GetModule("MyModule");
+  asIScriptModule *mod = angelEngine->GetModule("MainModule");
   asIScriptFunction *func = mod->GetFunctionByDecl("void Main()");
   if( func == 0 )
   {
@@ -108,17 +93,3 @@ int main() {
   std::cout << "Done." << std::endl;
   return 0;
 }
-
-#ifdef _WIN32
-void SetColorAndBackground(WORD wColor)
-{
-     //WORD wColor = ((BackC & 0x0F) << 4) + (ForgC & 0x0F);
-     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), wColor);
-     return;
-}
-void SaveAttributes() {
-  CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-  GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &consoleInfo);
-  saved_attributes = consoleInfo.wAttributes;
-}
-#endif
