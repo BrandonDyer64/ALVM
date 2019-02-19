@@ -4,11 +4,7 @@
 
 (Anĝelskripto Luao Virtuala Maŝino)
 
-[**Elŝuti** - Windows](https://github.com/BrandonDyer64/ALVM/releases/download/0.2.0/ALVM.exe)
-
-**Elŝuti** - Linux
-
-**Elŝuti** - Mac
+[**Elŝuti**](https://github.com/BrandonDyer64/ALVM/releases/latest)
 
 Cxi tio ne estas ludmotoro. Por ludmotoro kun Anĝelskripto kaj Luao, rigardu nian fratinan projecton, [Keplera Ludmotoro](https://keplerengine.com).
 
