@@ -19,15 +19,15 @@ Faru la dosieron `Main.as` apud la `ALVM.exe`.
 ```angelscript
 void Main() {
   // Diru Saluton!
-  Std::Print("Saluton al Mondo!");
+  Std::Printu("Saluton al Mondo!");
   // Kreu fenestron
-  Canvas::OpenWindow("Saluton al Mondo!", 1280, 720);
+  Kanvaso::KreuFenestron("Saluton al Mondo!", 1280, 720);
   // Senfina iteracio
-  while(Canvas::IsWindowOpen()) {
+  while(Kanvaso::CxuFenestroMalferma()) {
     // Bildigu
-    Canvas::Clear();
-    Canvas::DrawRect(320, 180, 640, 360, 1.0, 1.0, 1.0);
-    Canvas::Display();
+    Kanvaso::Vakigu();
+    Kanvaso::DesegnuOrtangulon(320, 180, 640, 360, 1.0, 1.0, 1.0);
+    Kanvaso::Vidigu();
   }
 }
 ```
