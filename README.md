@@ -1,5 +1,7 @@
 # AngelScript Lua Virtual Machine
 
+**English** - [Esperanto](README_EO.md)
+
 Creates a binary that runs a Main.as file.
 
 [**Download** - Windows](https://github.com/BrandonDyer64/ALVM/releases/download/0.2.0/ALVM.exe)
