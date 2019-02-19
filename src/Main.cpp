@@ -3,10 +3,8 @@
 #include <angelscript.h>
 #include <scriptstdstring/scriptstdstring.h>
 #include <scriptbuilder/scriptbuilder.h>
-
-void print(const std::string &s) {
-  std::cout << s << std::endl;
-}
+#include "AngelAPI.h"
+#include "Canvas/Canvas.h"
 
 void MessageCallback(const asSMessageInfo *msg, void *param)
 {
@@ -20,7 +18,7 @@ void MessageCallback(const asSMessageInfo *msg, void *param)
     return;
   }
   std::cout << "Exeption - " << msg->message << std::endl;
-  printf("    at %s:%d\n", msg->section, msg->row);
+  printf("    at %s:%d:%d\n", msg->section, msg->row, msg->col);
 }
 
 int main() {
@@ -32,8 +30,7 @@ int main() {
 
   RegisterStdString(angelEngine);
 
-  r = angelEngine->RegisterGlobalFunction("void Print(const string &in)", asFUNCTION(print), asCALL_CDECL);
-  //assert(r >= 0);
+  r = RegisterAngelFunctions(angelEngine);
 
   CScriptBuilder builder;
   r = builder.StartNewModule(angelEngine, "MainModule");

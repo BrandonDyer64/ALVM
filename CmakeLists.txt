@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(ALVM)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wfatal-errors")
 file(GLOB_RECURSE SOURCES *.c *.cpp *.cc)
 FOREACH(item ${SOURCES})
   IF(${item} MATCHES "/*\\/CMakeFiles\\/*/")
@@ -12,5 +13,44 @@ target_include_directories(
   ${CMAKE_SOURCE_DIR}/src
   ${CMAKE_SOURCE_DIR}/src/AngelScript/include
   ${CMAKE_SOURCE_DIR}/src/AngelScript/add_on
+  ${CMAKE_SOURCE_DIR}/src/Canvas/include
   ${CMAKE_SOURCE_DIR}/src/Lua
 )
+
+include(config.cmake)
+
+# GLFW
+find_package(glfw3 QUIET)
+if (glfw_FOUND)
+  set(WINDOW_MANAGER GLFW3)
+  include_directories(${GLFW_INCLUDE_DIRS})
+  target_link_libraries(ALVM ${GLFW_LIBRARIES})
+else()
+  find_package(PkgConfig)
+  if (PkgConfig_FOUND)
+    pkg_search_module(GLFW glfw3)
+    if (GLFW_FOUND)
+      set(WINDOW_MANAGER GLFW3)
+      include_directories(${GLFW_INCLUDE_DIRS})
+      target_link_libraries(ALVM ${GLFW_LIBRARIES})
+      target_link_libraries(ALVM ${GLFW_STATIC_LIBRARIES})
+    endif()
+  endif()
+endif()
+
+if (GLFW_LIB_PATH)
+  set(WINDOW_MANAGER GLFW3)
+  target_include_directories(ALVM PUBLIC ${GLFW_INCLUDE_PATH})
+  target_link_libraries(ALVM ${GLFW_LIB_PATH})
+endif()
+
+if (GLFW_FOUND OR glfw_FOUND OR GLFW_LIB_PATH)
+  if (GLFW_FOUND OR glfw_FOUND)
+    target_link_libraries(ALVM GL GLU GLEW)
+  else()
+    find_package(OpenGL REQUIRED)
+    target_link_libraries(ALVM ${OPENGL_LIBRARIES})
+    target_include_directories(ALVM PUBLIC ${OPENGL_INCLUDE_DIRS})
+  endif()
+  # target_include_directories(ALVM PUBLIC ${CMAKE_SOURCE_DIR}/Engine/Glad/include)
+endif()
