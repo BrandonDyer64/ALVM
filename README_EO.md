@@ -1,4 +1,7 @@
 # AngelScript Lua Virtual Machine
+
+**Esperanto** - [English](README.md)
+
 (Anĝelskripto Luao Virtuala Maŝino)
 
 [**Elŝuti** - Windows](https://github.com/BrandonDyer64/ALVM/releases/download/0.2.0/ALVM.exe)
