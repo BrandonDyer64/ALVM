@@ -2,7 +2,11 @@
 
 Creates a binary that runs a Main.as file.
 
-[**Download**](https://github.com/BrandonDyer64/ALVM/releases/latest)
+[**Download** - Windows](https://github.com/BrandonDyer64/ALVM/releases/download/0.2.0/ALVM.exe)
+
+**Download** - Linux
+
+**Download** - Mac
 
 This is not intended to be used as a game engine. For a similary functioning game engine with AngelScript and Lua see our sister project [Kepler Engine](https://keplerengine.com)
 
