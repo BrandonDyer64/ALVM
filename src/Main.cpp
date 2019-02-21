@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <angelscript.h>
+#include <scriptarray/scriptarray.h>
 #include <scriptstdstring/scriptstdstring.h>
 #include <scriptbuilder/scriptbuilder.h>
 #include "AngelAPI.h"
@@ -29,6 +30,7 @@ int main() {
   //assert(r >= 0);
 
   RegisterStdString(angelEngine);
+  RegisterScriptArray(angelEngine, true);
 
   r = RegisterAngelFunctions(angelEngine);
 

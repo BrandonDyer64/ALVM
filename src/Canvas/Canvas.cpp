@@ -12,6 +12,11 @@ int rasterHeight = 0;
 int canvasWidth = 0;
 int canvasHeight = 0;
 
+int msaaSamples = 4;
+
+double lastTime = 0.0;
+double deltaTime = 0.0;
+
 bool useCustomProjection = false;
 double customProjection[4];
 
@@ -21,13 +26,14 @@ void OpenWindow(const std::string &title, int width, int height) {
   canvasHeight = height;
   if (!glfwInit())
     return;
+  glfwWindowHint(GLFW_SAMPLES, msaaSamples);
   window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
   if (!window) {
     glfwTerminate();
     return;
   }
   glfwMakeContextCurrent(window);
-  glClearColor(0.0,0.0,0.0,0.0);
+  glClearColor(0.1, 0.1, 0.1, 0.0);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   // glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
@@ -36,6 +42,11 @@ void OpenWindow(const std::string &title, int width, int height) {
   } else {
     glOrtho(0.0, (double)width, (double)height, 0.0, -1.0, 1.0);
   }
+  glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void SetMSAA(int samples) {
+  msaaSamples = samples;
 }
 
 bool IsWindowOpen() {
@@ -70,10 +81,18 @@ void SetColor(int x, int y, double red, double green, double blue) {
 void DrawRect(double x, double y, double width, double height, double red, double green, double blue) {
   glColor3f (red, green, blue);
   glBegin(GL_POLYGON);
-    glVertex3f (x, y, 0.0);
-    glVertex3f (x + width, y, 0.0);
-    glVertex3f (x + width, y + height, 0.0);
-    glVertex3f (x, y + height, 0.0);
+    glVertex2f(x, y);
+    glVertex2f(x + width, y);
+    glVertex2f(x + width, y + height);
+    glVertex2f(x, y + height);
+  glEnd();
+}
+
+void DrawLine(double x0, double y0, double x1, double y1, double red, double green, double blue) {
+  glColor3f (red, green, blue);
+  glBegin(GL_LINES);
+    glVertex2f(x0, y0);
+    glVertex2f(x1, y1);
   glEnd();
 }
 
@@ -101,10 +120,17 @@ void ClearCanvas() {
 }
 
 void DisplayCanvas() {
+  double nowTime = glfwGetTime();
+  deltaTime = nowTime - lastTime;
+  lastTime = nowTime;
   glFlush();
   glfwSwapInterval(1);
   glfwSwapBuffers(window);
   glfwPollEvents();
+}
+
+double GetDeltaTime() {
+  return deltaTime;
 }
 
 double GetCurrentTime() {

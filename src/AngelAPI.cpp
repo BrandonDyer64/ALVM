@@ -27,6 +27,7 @@ int RegisterAngelFunctions(asIScriptEngine *engine) {
   asF("void PrintF(const string &in)", PrintF, asCALL_CDECL);
   asF("void PrintuF(const string &in)", PrintF, asCALL_CDECL);
   asF("double Time()", GetCurrentTime, asCALL_CDECL);
+  asF("double DeltaTime()", GetDeltaTime, asCALL_CDECL);
   asF("double Tempo()", GetCurrentTime, asCALL_CDECL);
 
   // Math
@@ -38,11 +39,13 @@ int RegisterAngelFunctions(asIScriptEngine *engine) {
   // Canvas
   engine->SetDefaultNamespace("Canvas");
   asF("void OpenWindow(const string &in, int, int)", OpenWindow, asCALL_CDECL);
+  asF("void SetMSAA(int)", SetMSAA, asCALL_CDECL);
   asF("bool IsWindowOpen()", IsWindowOpen, asCALL_CDECL);
   asF("void CreateRaster(int)", CreateRaster, asCALL_CDECL);
   asF("void SetProjection(double, double, double, double)", SetProjection, asCALL_CDECL);
   asF("void SetColor(int, int, double, double, double)", SetColor, asCALL_CDECL);
   asF("void DrawRect(double, double, double, double, double, double, double)", DrawRect, asCALL_CDECL);
+  asF("void DrawLine(double, double, double, double, double, double, double)", DrawLine, asCALL_CDECL);
   asF("void DrawRaster()", DrawRaster, asCALL_CDECL);
   asF("void Clear()", ClearCanvas, asCALL_CDECL);
   asF("void Display()", DisplayCanvas, asCALL_CDECL);
